@@ -6,7 +6,18 @@ class Node:
     index = taken = value = room = 0
 
     def __init__(self, index, taken, value, room):
-        pass
+        self.index  =   index
+        self.taken  =   taken
+        self.value  =   value
+        self.room   =   room
 
     def estimate(self, items):
-        return 0
+        est = 0
+        for item in items:
+                est = est + self.value
+        return est
+
+#3 10
+#45 5  83
+#35 3  83
+#48 8  35
