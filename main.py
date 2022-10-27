@@ -1,5 +1,7 @@
 from collections import namedtuple
+
 from node import *
+from solve import *
 
 #first_line = input().split()
 #item_count = int(first_line[0])
@@ -10,15 +12,12 @@ from node import *
 #    line = input()
 #    parts = line.split()
 #    items.append(Item(i-1, int(parts[0]), int(parts[1])))
+
+
 capacity = 10
 items = [Item(0, 45, 5),
         Item(1, 48, 8),
         Item(2, 35, 3)]
-    
-node1 = Node(1, [], 0, capacity)
-node2 = Node(2, [1], items[1].value, capacity - items[1].weight)
-node3 = Node(3, [2], items[2].value, capacity - items[2].weight)
-
-print("Node 1: " + str(node1.index) + " " + str(node1.room) + " " + str(node1.taken) + " " + str(node1.value) + " " + str(node1.estimate(items)))
-print("Node 2: " + str(node2.index) + " " + str(node2.room) + " " + str(node2.taken) + " " + str(node2.value) + " " + str(node2.estimate(items)))
-print("Node 3: " + str(node3.index) + " " + str(node3.room) + " " + str(node3.taken) + " " + str(node3.value) + " " + str(node3.estimate(items)))
+        
+_, _, visiting_order = solve_branch_and_bound_DFS(capacity, items, True)
+print(visiting_order)
