@@ -3,7 +3,6 @@ from collections import namedtuple
 Item = namedtuple("Item", ['index', 'value', 'weight'])
 
 class Node:
-    index = taken = value = room = 0
 
     def __init__(self, index, taken, value, room):
         self.index  =   index
@@ -13,8 +12,18 @@ class Node:
 
     def estimate(self, items):
         est = 0
-        for item in items:
-                est = est + self.value
+
+        for i in items:
+            est += i.value
+
+        for i in items:
+            if i.index not in self.taken:
+                print(i)
+                est -= i.value
+
+            if i.index == len(self.taken):
+                break
+
         return est
 
 #3 10
