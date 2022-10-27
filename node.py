@@ -25,8 +25,3 @@ class Node:
                 break
 
         return est
-
-#3 10
-#45 5  83
-#35 3  83
-#48 8  35
