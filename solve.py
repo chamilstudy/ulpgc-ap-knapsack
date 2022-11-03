@@ -45,14 +45,14 @@ def solve_branch_and_bound_DFS(capacity, items, record_visiting_order = False):
         if record_visiting_order:
             visiting_order.append(current.index)
 
-        if current.room <= 0:
+        if current.room < 0:
             continue
-
-        if current.estimate(items) < best_solution_yet.value:
+        
+        if current.estimate(items) <= best_solution_yet.value:
             continue
 
         if current.value > best_solution_yet.value:
-            best_solution_yet = Node(current.index + 1, current.taken, current.value, current.room)
+            best_solution_yet = Node(current.index + 1, current.taken.copy(), current.value, current.room)
 
         # Si no hemos llegado al final del árbol
         #    1) Ramificamos (branch) por la derecha (append)
@@ -63,11 +63,11 @@ def solve_branch_and_bound_DFS(capacity, items, record_visiting_order = False):
             alive.append(Node(current.index + 1, current.taken.copy(), current.value, current.room))
             
             left = current.taken.copy()
-            left.append(current.index) 
+            left.append(current.index + 1) 
                 
             alive.append(Node(current.index + 1,
                             left,
                             current.value + items[current.index].value,
                             current.room - items[current.index].weight))
        
-    return best_solution_yet.value, [value + 1 for value in best_solution_yet.taken], visiting_order
+    return best_solution_yet.value, best_solution_yet.taken, visiting_order

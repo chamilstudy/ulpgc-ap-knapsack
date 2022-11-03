@@ -15,12 +15,19 @@ class Node:
         for i in items:
             est += i.value
 
-        if len(self.taken) > 0:
-            for i in range(0, self.taken[len(self.taken) - 1]):
-                if i not in self.taken:
-                    est -= items[i].value
-        else:
-            for i in range(0, self.index):
+        for i in range(0, self.index):
+            if items[i].index not in self.taken:
                 est -= items[i].value
-
+                
         return est
+
+#for i in items:
+#            est += i.value
+#
+#        if len(self.taken) > 0:
+#            for i in range(0, self.taken[len(self.taken) - 1]):
+#                if i not in self.taken:
+#                    est -= items[i].value
+#        else:
+#            for i in range(0, self.index):
+#                est -= items[i].value
