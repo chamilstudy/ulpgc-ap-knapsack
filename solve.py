@@ -31,26 +31,43 @@ def solve_branch_and_bound_DFS(capacity, items, record_visiting_order = False):
 
     # Lo añadimos a la lista de nodos vivos (alive)
     # ...
-    alive.append(Node(0,[],0,0))
+    alive.append(Node(0,[],0,capacity))
 
     # Mientras haya nodos en la lista de nodos vivos
     # ...
+    best_solution_yet = Node(0,[],0,capacity)
 
     while len(alive) != 0:  #sustituir el True por la condición que considere más adecuada
         # Avanzamos al siguiente nodo de nuestro recorrido DFS (hacemos un pop
         # de la lista) y lo registramos en nuestro recorrido DFS.
-
         current = alive.pop()
+
         if record_visiting_order:
             visiting_order.append(current.index)
+
+        if current.room <= 0:
+            continue
+
+        if current.estimate(items) < best_solution_yet.value:
+            continue
+
+        if current.value > best_solution_yet.value:
+            best_solution_yet = Node(current.index + 1, current.taken, current.value, current.room)
 
         # Si no hemos llegado al final del árbol
         #    1) Ramificamos (branch) por la derecha (append)
         #    2) Ramificamos (branch) por la izquierda (append)
         # ...
-        if current.index != len(items):
-            aux = Node(current.index + 1, [], 0, 0)
-            alive.append(aux)
-            alive.append(aux)
 
-    return 0, [], visiting_order
+        if current.index < len(items):
+            alive.append(Node(current.index + 1, current.taken.copy(), current.value, current.room))
+            
+            left = current.taken.copy()
+            left.append(current.index) 
+                
+            alive.append(Node(current.index + 1,
+                            left,
+                            current.value + items[current.index].value,
+                            current.room - items[current.index].weight))
+       
+    return best_solution_yet.value, [value + 1 for value in best_solution_yet.taken], visiting_order
